@@ -5,7 +5,6 @@ const router = require("koa-router")();
 const Coupons = require("../../models/couponsSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
-const dayjs = require("dayjs");
 
 router.post("/coupons/redeem", async (ctx) => {
   try {
