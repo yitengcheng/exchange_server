@@ -50,6 +50,7 @@ module.exports = {
       msg,
     };
   },
+  // 模糊查询
   fuzzyQuery(fields, keyword) {
     const reg = new RegExp(keyword, "i");
     let query = [];
@@ -57,6 +58,18 @@ module.exports = {
       query.push({ [element]: { $regex: reg } });
     });
     return { $or: query };
+  },
+  // 劵码生成
+  couponCreate() {
+    let code = "";
+    for (let index = 0; index < 10; index++) {
+      if (index === 0) {
+        code += `${_.random(1, 9)}`;
+      } else {
+        code += `${_.random(0, 9)}`;
+      }
+    }
+    return code;
   },
   CODE,
 };

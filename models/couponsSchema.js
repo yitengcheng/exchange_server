@@ -14,6 +14,7 @@ const schema = mongoose.Schema({
   serviceConditions: Number, // 使用条件
   creditAmount: Number, // 减免金额
   couponCode: { type: String, unique: true }, // 劵码
+  batchNum: Number,
 });
 
-module.exports = mongoose.model("roles", schema, "roles"); // 模型名 schema 数据库集合名
+module.exports = mongoose.model("coupons", schema, "coupons"); // 模型名 schema 数据库集合名
