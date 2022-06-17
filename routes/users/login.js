@@ -3,33 +3,33 @@
  */
 const router = require("koa-router")();
 const User = require("../../models/userSchema");
+const Role = require("../../models/roleSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
 const jwt = require("jsonwebtoken");
-const md5 = require("md5");
 const dayjs = require("dayjs");
+const appletServer = require("../../utils/appletServer");
+const { to } = require("await-to-js");
+const { CODE } = require("../../utils/util");
 
 router.post("/app/login", async (ctx) => {
   try {
-    const { username, password, registrationId } = ctx.request.body;
-    /**
-     * 返回数据库指定字段
-     * 通过字段的对象1代表返回0代表不返回{ userId: 1, _id: 0}
-     */
+    const { code } = ctx.request.body;
+    const [err, openid] = await to(appletServer.getAppletOpenId(code));
+    if (err) {
+      ctx.body = util.fail(err, "小程序登录错误", CODE.USER_LOGIN_ERROR);
+    }
+    const role = await Role.findOne({ type: 1 });
     const res = await User.findOneAndUpdate(
-      { username, password: md5(password), status: 0 },
-      { loginDate: Date.now() },
-      {
-        fields: {
-          nickName: 1,
-        },
-      }
-    );
+      { openid },
+      { openid, loginDate: Date.now(), role: role?._id },
+      { upsert: true, new: true }
+    ).populate("role");
     const token = jwt.sign({ ...res?._doc }, "cdxs", { expiresIn: "24h" });
     if (res) {
       ctx.body = util.success({ token, userInfo: res }, "登录成功");
     } else {
-      ctx.body = util.fail("", "账号或密码不正确");
+      ctx.body = util.fail("", "登录失败", CODE.USER_LOGIN_ERROR);
     }
   } catch (error) {
     ctx.body = util.fail(error.stack);

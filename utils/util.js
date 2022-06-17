@@ -3,7 +3,6 @@
  */
 const log4js = require("./log4");
 const axios = require("axios");
-const mock = require("mockjs");
 const _ = require("lodash");
 const dayjs = require("dayjs");
 
