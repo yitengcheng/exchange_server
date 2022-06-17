@@ -5,13 +5,19 @@ const router = require("koa-router")();
 const Coupons = require("../../models/couponsSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
+const shopSchema = require("../../models/shopSchema");
 
 router.post("/coupons/listByShop", async (ctx) => {
   try {
     const { type } = ctx.request.body; // 1 全部 2 上月 3 本月
     const { page, skipIndex } = util.pager(ctx.request.body);
     const { user } = ctx.state;
-    let params = { consumerShop: user.shop, status: 3 };
+    const shop = await shopSchema.findById(user._id);
+    if (!shop) {
+      ctx.body = util.fail("", "请商家先进行登录");
+      return;
+    }
+    let params = { consumerShop: shop._id, status: 3 };
     if (type === 2) {
       params = {
         useTime: {

@@ -3,7 +3,6 @@
  */
 const router = require("koa-router")();
 const User = require("../../models/userSchema");
-const Role = require("../../models/roleSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
 const jwt = require("jsonwebtoken");
@@ -22,7 +21,7 @@ router.post("/app/login", async (ctx) => {
     const role = await Role.findOne({ type: 1 });
     const res = await User.findOneAndUpdate(
       { openid },
-      { openid, loginDate: Date.now(), role: role?._id },
+      { openid, loginDate: Date.now() },
       { upsert: true, new: true }
     ).populate("role");
     const token = jwt.sign({ ...res?._doc }, "cdxs", { expiresIn: "24h" });
