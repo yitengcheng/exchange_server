@@ -6,7 +6,7 @@ const Coupons = require("../../models/couponsSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
 
-router.post("/coupons/redeem", async (ctx) => {
+router.post("/coupons/listByStatus", async (ctx) => {
   try {
     const { status } = ctx.request.body; // 1 全部 2 未使用 3 已使用
     const { page, skipIndex } = util.pager(ctx.request.body);
