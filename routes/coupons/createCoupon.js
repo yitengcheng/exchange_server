@@ -32,8 +32,8 @@ router.post("/coupons/create", async (ctx) => {
     const data = _.map(couponData, "_doc");
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "优惠券");
-    await xlsx.writeFile(wb, path.join(__dirname + `../../public/excel/批次${createNum}优惠券.xlsx`));
-    ctx.body = util.success({ url: `excel/批次${createNum}优惠券.xlsx` }, `成功生成${createNum}张优惠券`);
+    await xlsx.writeFile(wb, path.join(__dirname + `../../public/excel/批次${batch.length + 1}优惠券.xlsx`));
+    ctx.body = util.success({ url: `excel/批次${batch.length + 1}优惠券.xlsx` }, `成功生成${createNum}张优惠券`);
   } catch (error) {
     ctx.body = util.fail(error.stack);
   }
