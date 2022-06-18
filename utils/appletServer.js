@@ -23,7 +23,7 @@ module.exports = {
       const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${config.secret}`;
       const response = await axios.get(url);
       const { access_token, errcode, errmsg } = response.data;
-      if (errcode === 0) {
+      if (!errcode) {
         resolve(access_token);
       } else {
         reject({ errcode, errmsg });
