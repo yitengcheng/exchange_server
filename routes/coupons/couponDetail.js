@@ -10,7 +10,7 @@ router.post("/coupons/detail", async (ctx) => {
   try {
     const { couponId } = ctx.request.body;
     const { user } = ctx.state;
-    const res = await Coupons.findOne({ _id: couponId, belongUser: user._id });
+    const res = await Coupons.findOne({ _id: couponId, belongUser: user._id }).populate("consumerShop");
     if (!res) {
       ctx.body = util.fail("", "没有这张优惠券");
       return;

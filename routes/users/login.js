@@ -18,12 +18,7 @@ router.post("/app/login", async (ctx) => {
     if (err) {
       ctx.body = util.fail(err, "小程序登录错误", CODE.USER_LOGIN_ERROR);
     }
-    const role = await Role.findOne({ type: 1 });
-    const res = await User.findOneAndUpdate(
-      { openid },
-      { openid, loginDate: Date.now() },
-      { upsert: true, new: true }
-    ).populate("role");
+    const res = await User.findOneAndUpdate({ openid }, { openid, loginDate: Date.now() }, { upsert: true, new: true });
     const token = jwt.sign({ ...res?._doc }, "cdxs", { expiresIn: "24h" });
     if (res) {
       ctx.body = util.success({ token, userInfo: res }, "登录成功");

@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 router.post("/shop/login", async (ctx) => {
   try {
     const { userName, password } = ctx.request.body;
-    const shop = await Shop.findOne({ userName, password: md5(password) });
+    const shop = await Shop.findOne({ userName, password: md5(password) }, { password: 0, userName: 0, __v: 0 });
     if (!shop) {
       ctx.body = util.fail("", "账号或密码错误");
       return;

@@ -10,10 +10,9 @@ const Shop = require("../../models/shopSchema");
 
 router.post("/coupons/expense", async (ctx) => {
   try {
-    const { couponid } = ctx.request.body;
-    const { user } = ctx.state;
-    const coupon = await Coupons.findOne({ _id: couponid, status: 2, validityTime: { $gte: dayjs().toDate() } });
-    const shop = await Shop.findById(user._id);
+    const { couponCode, shopId } = ctx.request.body;
+    const coupon = await Coupons.findOne({ couponCode, status: 2, validityTime: { $gte: dayjs().toDate() } });
+    const shop = await Shop.findById(shopId);
     if (!shop) {
       ctx.body = util.fail("", "请商家先进行登录");
       return;
@@ -22,7 +21,7 @@ router.post("/coupons/expense", async (ctx) => {
       ctx.body = util.fail("", "无效优惠券，无法使用");
       return;
     }
-    const res = await Coupons.updateOne({ _id: couponid }, { status: 3, useTime: Date.now(), consumerShop: shop._id });
+    const res = await Coupons.updateOne({ couponCode }, { status: 3, useTime: Date.now(), consumerShop: shop._id });
     ctx.body = util.success({}, `优惠券使用成功`);
   } catch (error) {
     ctx.body = util.fail(error.stack);

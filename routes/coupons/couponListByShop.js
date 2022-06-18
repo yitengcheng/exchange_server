@@ -6,13 +6,12 @@ const Coupons = require("../../models/couponsSchema");
 const util = require("../../utils/util");
 const log4j = require("../../utils/log4");
 const shopSchema = require("../../models/shopSchema");
+const dayjs = require("dayjs");
 
 router.post("/coupons/listByShop", async (ctx) => {
   try {
-    const { type } = ctx.request.body; // 1 全部 2 上月 3 本月
-    const { page, skipIndex } = util.pager(ctx.request.body);
-    const { user } = ctx.state;
-    const shop = await shopSchema.findById(user._id);
+    const { type, shopId } = ctx.request.body; // 1 全部 2 上月 3 本月
+    const shop = await shopSchema.findById(shopId);
     if (!shop) {
       ctx.body = util.fail("", "请商家先进行登录");
       return;
@@ -35,7 +34,7 @@ router.post("/coupons/listByShop", async (ctx) => {
         ...params,
       };
     }
-    const list = await Coupons.find(params).skip(skipIndex).limit(page.pageSize);
+    const list = await Coupons.find(params);
     const total = await Coupons.countDocuments(params);
     ctx.body = util.success({ total, list });
   } catch (error) {
