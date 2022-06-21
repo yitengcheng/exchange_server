@@ -9,6 +9,7 @@ module.exports = {
     /^\/exApi\/coupons\/create/,
     /^\/exApi\/shop\/add/,
     /^\/exApi\/applet\/urlSchema/,
+    /^\/exApi\/coupons\/downCouponsByShop/,
   ], // 接口白名单
   appid: "wx6e94e7eaa811d0bd", // 小程序id
   secret: "efacf5c678f13d1c0a1f033011275314", // 小程序secret
