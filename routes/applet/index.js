@@ -1,4 +1,4 @@
-const getAppletUrl = require("./getAppletUrl");
+const getAppletUrl = require('./getAppletUrl');
 
 module.exports = {
   getAppletUrl,

@@ -1,8 +1,8 @@
-const users = require("./users");
-const init = require("./init");
-const coupons = require("./coupons");
-const shop = require("./shop");
-const applet = require("./applet");
+const users = require('./users');
+const init = require('./init');
+const coupons = require('./coupons');
+const shop = require('./shop');
+const applet = require('./applet');
 
 const routers = {
   ...users,

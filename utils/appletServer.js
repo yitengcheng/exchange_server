@@ -2,8 +2,8 @@
  * 小程序后端函数
  */
 
-const { default: axios } = require("axios");
-const config = require("../config");
+const { default: axios } = require('axios');
+const config = require('../config');
 
 module.exports = {
   getAppletOpenId(code) {
@@ -11,11 +11,11 @@ module.exports = {
       const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${config.appid}&secret=${config.secret}&js_code=${code}&grant_type=authorization_code`;
       const response = await axios.get(url);
       const { openid, errcode, errmsg } = response.data;
-      if (!errcode) {
-        resolve(openid);
-      } else {
+      if (errcode) {
         reject({ errcode, errmsg });
+        return;
       }
+      resolve(openid);
     });
   },
   getAccessToken() {
@@ -24,10 +24,10 @@ module.exports = {
       const response = await axios.get(url);
       const { access_token, errcode, errmsg } = response.data;
       if (!errcode) {
-        resolve(access_token);
-      } else {
         reject({ errcode, errmsg });
+        return;
       }
+      resolve(access_token);
     });
   },
 };

@@ -1,4 +1,4 @@
-const initData = require("./initData");
+const initData = require('./initData');
 
 module.exports = {
   initData,

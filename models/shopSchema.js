@@ -1,7 +1,7 @@
 /**
  * 商户实体
  */
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
   userName: String, // 账号
@@ -14,4 +14,4 @@ const schema = mongoose.Schema({
   createTime: { type: Date, default: Date.now() }, // 创建时间
 });
 
-module.exports = mongoose.model("shops", schema, "shops"); // 模型名 schema 数据库集合名
+module.exports = mongoose.model('shops', schema, 'shops'); // 模型名 schema 数据库集合名
